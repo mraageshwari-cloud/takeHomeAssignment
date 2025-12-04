@@ -1,0 +1,26 @@
+
+footer {
+    padding: 1%;
+    margin-top: 1%;
+    align-items: center;
+    background-color: #749dc7;
+    border-top: 2px solid #ddd;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 50px;
+    text-align: center;
+  }
+  header {
+    top:0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #ddd;
+    height: 5vw;
+    text-align: center;
+    }
+   
+
+
