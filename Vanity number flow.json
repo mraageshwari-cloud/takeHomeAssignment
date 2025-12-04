@@ -1,0 +1,252 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "90fc70f9-09a7-43ab-8644-4aafe609e556",
+  "Metadata": {
+    "entryPointPosition": {
+      "x": 40,
+      "y": 40
+    },
+    "ActionMetadata": {
+      "90fc70f9-09a7-43ab-8644-4aafe609e556": {
+        "position": {
+          "x": 33.6,
+          "y": 148.8
+        }
+      },
+      "44019979-9f5f-4669-83ba-32cdf041ccf5": {
+        "position": {
+          "x": 35.2,
+          "y": 321.6
+        },
+        "parameters": {
+          "TextToSpeechVoice": {
+            "languageCode": "en-US"
+          }
+        },
+        "overrideConsoleVoice": false
+      },
+      "c678f58e-7ce3-4317-a98f-c7fbec8b1954": {
+        "position": {
+          "x": 1367.2,
+          "y": 311.2
+        }
+      },
+      "72428d45-53ce-42e5-b9cc-56e1d0e455d1": {
+        "position": {
+          "x": 764.8,
+          "y": 207.2
+        },
+        "dynamicParams": []
+      },
+      "1b4a8342-b3e3-4ef9-a863-c46c83637af4": {
+        "position": {
+          "x": 992,
+          "y": 205.6
+        }
+      },
+      "9c3ec2d0-18a0-4514-b725-fb31bcce4950": {
+        "position": {
+          "x": 44,
+          "y": 540.8
+        }
+      },
+      "05bce9d2-2cb1-44e9-b913-047fd49ef9c9": {
+        "position": {
+          "x": 516,
+          "y": 206.4
+        },
+        "parameters": {
+          "LambdaFunctionARN": {
+            "displayName": "callerNumberToVanity"
+          }
+        },
+        "dynamicMetadata": {}
+      },
+      "5e63f237-7dff-48b4-aa8f-32eae20b27cc": {
+        "position": {
+          "x": 657.6,
+          "y": 593.6
+        }
+      },
+      "3c582267-1dcb-4db9-bbdb-d05b9b58d1db": {
+        "position": {
+          "x": 283.2,
+          "y": 189.6
+        },
+        "conditionMetadata": [
+          {
+            "id": "d5fed87f-124e-487b-bb42-378fc3e35b7e",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    "Annotations": [],
+    "name": "Vanity number flow",
+    "description": "",
+    "type": "contactFlow",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {
+        "FlowLoggingBehavior": "Enabled"
+      },
+      "Identifier": "90fc70f9-09a7-43ab-8644-4aafe609e556",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Transitions": {
+        "NextAction": "44019979-9f5f-4669-83ba-32cdf041ccf5"
+      }
+    },
+    {
+      "Parameters": {
+        "TextToSpeechVoice": "Joanna"
+      },
+      "Identifier": "44019979-9f5f-4669-83ba-32cdf041ccf5",
+      "Type": "UpdateContactTextToSpeechVoice",
+      "Transitions": {
+        "NextAction": "9c3ec2d0-18a0-4514-b725-fb31bcce4950",
+        "Errors": [
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "c678f58e-7ce3-4317-a98f-c7fbec8b1954",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "VanityNumber1": "$.External.callerNumberToVanity.top_vanity_numbers[0]",
+          "VanityNumber2": "$.External.callerNumberToVanity.top_vanity_numbers[1]",
+          "VanityNumber3": "$.External.callerNumberToVanity.top_vanity_numbers[2]"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "72428d45-53ce-42e5-b9cc-56e1d0e455d1",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "1b4a8342-b3e3-4ef9-a863-c46c83637af4",
+        "Errors": [
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>\nHere are the three best vanity numbers: \n<break time=\"500ms\"/> {{Contact.Attribute.VanityNumber1}}, \n<break time=\"500ms\"/> {{Contact.Attribute.VanityNumber2}}, \n<break time=\"500ms\"/> and {{Contact.Attribute.VanityNumber3}}. \nThank you for calling, and have a great day!\n</speak>"
+      },
+      "Identifier": "1b4a8342-b3e3-4ef9-a863-c46c83637af4",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "c678f58e-7ce3-4317-a98f-c7fbec8b1954",
+        "Errors": [
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Text": "Hello ! Greetings for the day . "
+      },
+      "Identifier": "9c3ec2d0-18a0-4514-b725-fb31bcce4950",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "3c582267-1dcb-4db9-bbdb-d05b9b58d1db",
+        "Errors": [
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:us-east-1:427979936886:function:callerNumberToVanity",
+        "InvocationTimeLimitSeconds": "3",
+        "InvocationType": "SYNCHRONOUS",
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "05bce9d2-2cb1-44e9-b913-047fd49ef9c9",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "72428d45-53ce-42e5-b9cc-56e1d0e455d1",
+        "Errors": [
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Text": "Error in flow, disconnecting "
+      },
+      "Identifier": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "c678f58e-7ce3-4317-a98f-c7fbec8b1954",
+        "Errors": [
+          {
+            "NextAction": "c678f58e-7ce3-4317-a98f-c7fbec8b1954",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "StoreInput": "False",
+        "InputTimeLimitSeconds": "5",
+        "SSML": "<speak>\nWant to find the best vanity numbers for your business? \n<break time=\"300ms\"/> \nPress 1 to hear the top three options for your phone number.\n</speak>"
+      },
+      "Identifier": "3c582267-1dcb-4db9-bbdb-d05b9b58d1db",
+      "Type": "GetParticipantInput",
+      "Transitions": {
+        "NextAction": "05bce9d2-2cb1-44e9-b913-047fd49ef9c9",
+        "Conditions": [
+          {
+            "NextAction": "05bce9d2-2cb1-44e9-b913-047fd49ef9c9",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "05bce9d2-2cb1-44e9-b913-047fd49ef9c9",
+            "ErrorType": "InputTimeLimitExceeded"
+          },
+          {
+            "NextAction": "05bce9d2-2cb1-44e9-b913-047fd49ef9c9",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "5e63f237-7dff-48b4-aa8f-32eae20b27cc",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    }
+  ]
+}
